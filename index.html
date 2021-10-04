@@ -1,0 +1,58 @@
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+
+
+<figure class="text-center">
+    <blockquote class="blockquote">
+        <p>-- Hi I created this page to study this weird function --</p>
+    </blockquote>
+</figure>
+<div style="text-align:center;">
+    <b><label>Function(𝑥) = { if 𝑥 is odd then 3𝑥+1 | if 𝑥 is even then 𝑥/2 }</label><br></b>
+</div>
+<div style="text-align:center;margin-top: 20px;">
+    <label>Select value of 𝑥: </label>
+    <div class="input-group flex-nowrap">
+        <span class="input-group-text" id="addon-wrapping" style="margin-left: 10rem">𝑥</span>
+        <input id="inputnumber" type="text" class="form-control" placeholder="value" aria-label="xValue"
+            aria-describedby="addon-wrapping" style="margin-right: 10rem;">
+    </div>
+    <button type="button" class="btn btn-lg btn-primary" style="margin-top: 1rem;"
+        onclick="getRequest()">Calculate</button>
+
+</div>
+<div>
+    <table id="mytab" class="table table-borderless" style="text-align:center;margin-top: 20px;">
+        <thead>
+            <tr>
+                <th scope="col">𝑥</th>
+                <th scope="col">Number of Iterations until 1</th>
+                <th scope="col">pathing</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    async function getRequest() {
+        var root = document.getElementById('mytab').getElementsByTagName('tbody')[0];
+        root.innerHTML = '';
+        let itNumber = document.getElementById('inputnumber').value;
+        let res = await fetch('/runMath/'+itNumber)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                for (i = 0; i < data.length; i++) {
+                    addRow(data[i]);
+                }
+            });
+
+    }
+
+    function addRow(obj) {
+        var root = document.getElementById('mytab').getElementsByTagName('tbody')[0];
+        root.innerHTML += '<tr><td>' + obj.InitialNumber + '</td><td>' + obj.count + '</td><td>' + obj.path + '</td></tr>';
+    }
+</script>
